@@ -34,3 +34,6 @@ then visit http://localhost:8000. Stop with Ctrl+C.
 - Replace the placeholder metadata and remove `noindex` when ready for search engines.
 - Verify domain ownership and preserve email DNS records before connecting a custom domain.
 - Reassess hosting before adding ecommerce because GitHub Pages restricts ecommerce use.
+
+
+
