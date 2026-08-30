@@ -12,7 +12,7 @@ A static website hosted on GitHub Pages. The current page is a temporary setup p
 In the GitHub repository, open **Settings → Pages → Build and deployment → Source → GitHub Actions**.
 Then push to `main`, or open **Actions → Deploy portfolio to GitHub Pages → Run workflow**.
 
-The expected URL is https://mar12a.github.io/maras-site/ after a successful deployment.
+The expected URL is https://mar12a.github.io/ after a successful deployment.
 No custom domain has been configured. The existing website and email remain unchanged.
 
 ## Updates
@@ -20,7 +20,7 @@ No custom domain has been configured. The existing website and email remain unch
 Edit and review locally, commit the intended files, then push to `main` to publish.
 Saving a file alone does not publish it. Only the `public/` directory is deployed,
 but all tracked files are visible in the public GitHub repository. Never commit secrets or private files.
-Use relative asset links so the site works under `/maras-site/`.
+Use relative asset links so the site remains portable between hosting locations.
 
 ## Local preview
 
