@@ -1,7 +1,15 @@
 const canvas=document.getElementById('scope'),ctx=canvas.getContext('2d');
 const knobs=['facets','turn','zoom'].map(id=>document.getElementById(id));
 const scenes=[["yellow-2", "#e9da52", "#283e56"], ["red-1", "#e98b8d", "#442838"], ["purple-3", "#c9aedb", "#3b284d"], ["green-4", "#b9ce91", "#293d32"], ["bw-5", "#dedbcf", "#292932"], ["blue-6", "#b4d8e2", "#26354c"], ["pink-7", "#ed9dbb", "#4d263c"], ["orange-8", "#eeb47c", "#442638"], ["orange-9", "#eeb47c", "#442638"], ["purple-10", "#c9aedb", "#3b284d"], ["blue-11", "#b4d8e2", "#26354c"], ["bw-12", "#dedbcf", "#292932"]];
-let scene=0,picture=null,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches,frame=0,lastPaint=0,elapsed=0,lastTime=0,sourcePattern=null,inView=true,interacting=false,zoomBase=.5,zoomPhase=0,scopeHighlighted=false;
+// Pick a fresh colour on every visit; keep its artwork and palette together.
+let previousColour=null;
+try{previousColour=sessionStorage.getItem('mara-opening-colour')}catch{}
+const openingChoices=scenes.map((_,i)=>i).filter(i=>scenes[i][1]!==previousColour);
+const openingScene=openingChoices[Math.floor(Math.random()*openingChoices.length)];
+document.body.style.setProperty('--paper',scenes[openingScene][1]);
+document.body.style.setProperty('--ink',scenes[openingScene][2]);
+try{sessionStorage.setItem('mara-opening-colour',scenes[openingScene][1])}catch{}
+let scene=openingScene,picture=null,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches,frame=0,lastPaint=0,elapsed=0,lastTime=0,sourcePattern=null,inView=true,interacting=false,zoomBase=.5,zoomPhase=0,scopeHighlighted=false;
 const motion=document.getElementById('motion');
 function updateMotion(){motion.setAttribute('aria-pressed',String(playing));motion.textContent=playing?window.maraT('Pause movement Ⅱ'):window.maraT('Let it move ▷')}
 function render(){
