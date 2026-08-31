@@ -1,39 +1,33 @@
-# Mara’s portfolio
+# Mara Brandsen’s portfolio
 
-A static website hosted on GitHub Pages. The current page is a temporary setup placeholder, not the final design.
+A static English/Dutch website: artwork kaleidoscope, portfolio grid and personal About/contact page.
 
-## Files
+## Preview
 
-- `public/`: published website files. Put images and other website assets here.
-- `.github/workflows/pages.yml`: automatically deploys pushes to `main`.
+```sh
+python3 -m http.server 8000 --bind 127.0.0.1 --directory public
+```
 
-## First deployment
+Open http://127.0.0.1:8000/. Use EN / NL in the navigation to switch languages. Language is stored locally and included in navigation URLs (`?lang=en` or `?lang=nl`).
 
-In the GitHub repository, open **Settings → Pages → Build and deployment → Source → GitHub Actions**.
-Then push to `main`, or open **Actions → Deploy portfolio to GitHub Pages → Run workflow**.
+## Editing
 
-The expected URL is https://mar12a.github.io/ after a successful deployment.
-No custom domain has been configured. The existing website and email remain unchanged.
+- `public/index.html`: main homepage (keep `public/kaleido.html`, the previous preview URL, in sync).
+- `public/about.html`: English About copy and photo thumbnails.
+- `public/scripts/language.js`: Dutch translations and language navigation.
+- `public/scripts/artwork-data.js`: artwork order, colour grouping, dimensions and descriptions.
+- `public/styles/kaleido.css` and `public/styles/about.css`: presentation.
+- `public/scripts/kaleido.js`: mirrored artwork sectors, controls and PNG export. Automatic motion rotates the artwork only.
+- `public/scripts/about.js`: draggable photos, grid reset, motion and email copying.
 
-## Updates
+Portrait and artwork sources stay in the ignored `website-assets/` folder. Only optimized copies are included. Fonts are hosted locally with their OFL licenses. The Mathematical Etudes reference is linked, not copied or embedded.
 
-Edit and review locally, commit the intended files, then push to `main` to publish.
-Saving a file alone does not publish it. Only the `public/` directory is deployed,
-but all tracked files are visible in the public GitHub repository. Never commit secrets or private files.
-Use relative asset links so the site remains portable between hosting locations.
+## Publishing
 
-## Local preview
+```sh
+python3 scripts/build_site.py
+```
 
-From this folder, run `python3 -m http.server 8000 --directory public`,
-then visit http://localhost:8000. Stop with Ctrl+C.
+The build includes only the current site and its required assets in `_site/`. Earlier local design experiments, reference images and the unlicensed grass experiment are not published. GitHub Actions builds and deploys `_site/` to https://mar12a.github.io/ on pushes to `main`.
 
-## Launch checklist
-
-- Replace the temporary page with the portfolio.
-- Check mobile layout, keyboard access, links and image sizes.
-- Replace the placeholder metadata and remove `noindex` when ready for search engines.
-- Verify domain ownership and preserve email DNS records before connecting a custom domain.
-- Reassess hosting before adding ecommerce because GitHub Pages restricts ecommerce use.
-
-
-
+No custom-domain or email DNS changes are made. There is no shop, analytics, contact backend or external font dependency. Clicking the contact address copies it to the clipboard. Desktop, mobile and keyboard checks have been performed in the local in-app browser; full Safari/Firefox/Chrome testing is still recommended.

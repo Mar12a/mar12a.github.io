@@ -23,12 +23,14 @@ jobs:
     steps:
       - name: Check out website
         uses: actions/checkout@v4
+      - name: Build current portfolio
+        run: python3 scripts/build_site.py
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload website files only
         uses: actions/upload-pages-artifact@v3
         with:
-          path: public
+          path: _site
       - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v5

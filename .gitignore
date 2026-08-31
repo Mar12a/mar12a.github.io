@@ -3,3 +3,9 @@
 .env.*
 !.env.example
 node_modules/
+
+# Original artwork stays local; publish only prepared copies in public/assets.
+/website-assets/
+
+# Generated deployment package
+/_site/
