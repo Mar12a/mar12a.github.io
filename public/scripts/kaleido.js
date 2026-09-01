@@ -1,7 +1,8 @@
 const canvas=document.getElementById('scope'),ctx=canvas.getContext('2d');
 const knobs=['facets','turn','zoom'].map(id=>document.getElementById(id));
 const paletteByColour={red:['#e98b8d','#442838'],orange:['#eeb47c','#442638'],yellow:['#e9da52','#283e56'],green:['#b9ce91','#293d32'],blue:['#b4d8e2','#26354c'],purple:['#c9aedb','#3b284d'],pink:['#ed9dbb','#4d263c'],bw:['#dedbcf','#292932']};
-const scenes=artworks.map(art=>[art.id,...(paletteByColour[art.colour]||paletteByColour.blue)]);
+const excludedKaleidoscopeOrders=new Set([3,6,10,16,20,22,23,25,26,28,35]);
+const scenes=artworks.filter(art=>!excludedKaleidoscopeOrders.has(art.order)).map(art=>[art.id,...(paletteByColour[art.colour]||paletteByColour.blue)]);
 // Pick a fresh colour on every visit; keep its artwork and palette together.
 let previousColour=null;
 try{previousColour=sessionStorage.getItem('mara-opening-colour')}catch{}
@@ -117,7 +118,7 @@ let nameFrame=0,lastNameFrame=0;
 function paintName(time){
  if(nameVideo.paused||nameVideo.ended)return;
  if(time-lastNameFrame>33&&nameVideo.readyState>=2){
-  nameContext.drawImage(nameVideo,21,208,697,300,0,0,1000,428);
+  nameContext.drawImage(nameVideo,0,0,1000,428);
   const image=nameContext.getImageData(0,0,1000,428),p=image.data;
   for(let i=0;i<p.length;i+=4){const light=(p[i]+p[i+1]+p[i+2])/3;p[i]=p[i+1]=p[i+2]=0;p[i+3]=Math.max(0,Math.min(255,(248-light)*255/248))}
   nameContext.putImageData(image,0,0);nameButton.classList.add('drawing');lastNameFrame=time;

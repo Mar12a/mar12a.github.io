@@ -30,7 +30,7 @@ if (gallery) {
   const fragment = document.createDocumentFragment();
   artworks.forEach((art,index) => {
     const card = document.createElement('figure');
-    card.className = 'art-card'; card.dataset.id = art.id;
+    card.className = `art-card ${art.width > art.height ? 'landscape' : art.height > art.width ? 'portrait' : 'square'}`; card.dataset.id = art.id;
     const button = document.createElement('button');
     button.type = 'button'; button.dataset.art = art.id;
     button.setAttribute('aria-label',`${window.maraT?window.maraT('View full image: '):'View full image: '}${art.label}`);

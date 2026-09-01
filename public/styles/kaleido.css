@@ -35,3 +35,14 @@ body:not(.about-page) .hero{min-height:720px;height:100svh}body:not(.about-page)
 .instrument #motion{grid-row:2}
 .about-copy a{text-underline-offset:3px;text-decoration-thickness:1px}
 @media(max-width:700px){header nav{gap:16px;align-items:center}.about-page header nav{gap:13px}.language-switch{gap:7px}.instrument .science-link{grid-column:1/-1;grid-row:4;justify-self:center;font-size:11px}.instrument #motion{grid-row:3}body:not(.about-page) .hero{min-height:930px}.about-copy p{font-size:14px}}
+
+/* Keep every tile still while the complete artwork bleeds over its neighbours. */
+.art-card{position:relative}
+.art-card button{position:relative;overflow:visible;cursor:zoom-in}
+.art-card:is(:hover,:focus-within){z-index:12}
+@media(hover:hover){
+ .art-card.portrait button:hover img{position:absolute;left:0;top:50%;width:100%;height:auto;max-width:none;transform:translateY(-50%);object-fit:fill}
+ .art-card.landscape button:hover img{position:absolute;left:50%;top:0;width:auto;height:100%;max-width:none;transform:translateX(-50%);object-fit:fill}
+}
+.art-card.portrait button:focus-visible img{position:absolute;left:0;top:50%;width:100%;height:auto;max-width:none;transform:translateY(-50%);object-fit:fill}
+.art-card.landscape button:focus-visible img{position:absolute;left:50%;top:0;width:auto;height:100%;max-width:none;transform:translateX(-50%);object-fit:fill}
