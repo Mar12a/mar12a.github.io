@@ -42,7 +42,8 @@
   "Let it move ▷": "Laat bewegen ▷",
   "Save this view · PNG": "Bewaar dit beeld · PNG",
   "The science behind it": "De wetenschap erachter",
-  "Mara’s choice": "Mara’s keuze",
+  "Mara’s order": "Mara’s volgorde",
+  "drag the photos around": "sleep de foto’s rond",
   "Rainbow order": "Regenboogvolgorde",
   "Shuffle ↻": "Husselen ↻",
   "Grid size": "Rastergrootte",
@@ -101,6 +102,7 @@
     if(language!=='nl')return text;
     if(Object.prototype.hasOwnProperty.call(nl,text))return nl[text];
     if(/^\d+ things to look at$/.test(text))return text.replace('things to look at','werken om te bekijken');
+    if(/^Artwork \d+$/.test(text))return text.replace('Artwork','Kunstwerk');
     const photo=text.match(/^Move (mara\d+\.jpeg) with arrow keys or drag$/);
     return photo?`Verplaats ${photo[1]} met de pijltjestoetsen of sleep`:text;
   };

@@ -38,3 +38,6 @@
 .about-copy a{position:relative;z-index:7}
 
 .about-copy a{display:inline-block}
+
+.wander-hint{margin-right:auto;align-self:center;font:italic 15px/1.2 Palatino,'Book Antiqua',serif;transform:rotate(-2deg);opacity:.78}
+@media(max-width:700px){.wander-tools{flex-wrap:wrap}.wander-hint{width:100%;text-align:right;margin-bottom:2px;font-size:14px}}
