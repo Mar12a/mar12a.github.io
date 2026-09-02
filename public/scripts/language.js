@@ -134,7 +134,7 @@
   "About / Contact": "Over mij / Contact",
   "About & contact": "Over mij & contact",
   "Hi, I’m": "Hoi, ik ben",
-  "Artist · Engineer": "Kunstenaar · Ingenieur",
+  "Artist & Engineer": "Kunstenaar & Ingenieur",
   "Contact me": "Contact",
   "A commission, working together, buying a piece, a question, or simply something that caught your interest. I’d love to hear from you.": "Een opdracht, samenwerken, een werk kopen, een vraag of gewoon iets dat je nieuwsgierig maakt. Ik hoor graag van je.",
   "Click the address to copy it.": "Klik op het adres om het te kopiëren.",
