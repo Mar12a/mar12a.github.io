@@ -4,7 +4,7 @@ import json,shutil
 ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT/'public'
 OUTPUT=ROOT/'_site'
-files=['index.html','kaleido.html','about.html','portfolio.html','scripts/artwork-data.js','scripts/site.js','scripts/kaleido.js','scripts/about.js','scripts/language.js','styles/fonts.css','styles/kaleido.css','styles/about.css','assets/favicon.svg','assets/name-writing.png','assets/name-writing.mp4']
+files=['index.html','kaleido.html','about.html','portfolio.html','scripts/artwork-data.js','scripts/site.js','scripts/kaleido.js','scripts/about.js','scripts/language.js','styles/fonts.css','styles/kaleido.css','styles/about.css','assets/favicon.svg','assets/name-writing.png','assets/name-writing.mp4','assets/cutout-comet.webp']
 artworks=json.loads((SOURCE/'scripts/artwork-data.js').read_text().split('=',1)[1].strip().rstrip(';'))
 files += ['assets/'+a['id']+'.webp' for a in artworks]
 files += ['assets/mara'+str(i)+'.webp' for i in range(1,10)]

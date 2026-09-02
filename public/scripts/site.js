@@ -18,13 +18,21 @@ const artworks = window.MARA_ARTWORKS || [
   {id:'ink-study',label:'Ink, again',alt:'A black ink study of repeated organic shapes and marks on light paper',tags:['quiet'],width:1165,height:1600}
 ];
 
-if(window.maraT)artworks.forEach(art=>{art.label=window.maraT(art.label);art.alt=window.maraT(art.alt)});
+if(window.maraT)artworks.forEach(art=>{art.label=window.maraT(art.label);art.alt=window.maraT(art.alt);if(art.description)art.description=window.maraT(art.description)});
 
 for (const element of document.querySelectorAll('[data-year]')) element.textContent = new Date().getFullYear();
 const gallery = document.querySelector('#gallery');
 const count = document.querySelector('#work-count');
 let currentFilter = 'all';
 let visibleArt = artworks;
+const kindGroups = [
+  {key:'true-life',label:'(A bit) true to life',orders:[2,5,9,11,12,14,18,21,27,29,30,31,33]},
+  {key:'illustrative',label:'Illustrative / my way',orders:[1,3,6,10,13,15,16,17,19,8,20,23,24,25,26,28,32,34,35]},
+  {key:'abstract',label:'Abstract',orders:[4,7,22]},
+  {key:'other',label:'Other',orders:[]}
+];
+const kindByOrder = new Map(kindGroups.flatMap(group=>group.orders.map(order=>[order,group.key])));
+artworks.forEach(art=>{art.kind=kindByOrder.get(art.order)||'other';art.description=art.description||''});
 
 if (gallery) {
   const fragment = document.createDocumentFragment();
@@ -42,7 +50,9 @@ if (gallery) {
     const caption = document.createElement('figcaption');
     const title = document.createElement('span'); title.textContent = art.label;
     const number = document.createElement('span'); number.textContent = String(index+1).padStart(2,'0');
-    caption.append(title,number);card.append(button,caption);fragment.append(card);
+    const description = document.createElement('p');description.className='art-description';description.textContent=art.description;
+    const enquiry = document.createElement('a');enquiry.className='art-enquiry';enquiry.href='about.html#contact';enquiry.textContent=window.maraT?window.maraT('Like what you see? Contact me →'):'Like what you see? Contact me →';
+    caption.append(title,number,description,enquiry);card.append(button,caption);fragment.append(card);
   });
   gallery.append(fragment);
   document.querySelectorAll('[data-filter]').forEach(button => {
@@ -55,6 +65,8 @@ if (gallery) {
     });
   });
   count.textContent = window.maraT?window.maraT(`${artworks.length} things to look at`):`${artworks.length} things to look at`;
+  const locateId=new URLSearchParams(location.search).get('locate');
+  if(locateId)requestAnimationFrame(()=>{const target=gallery.querySelector(`[data-id="${CSS.escape(locateId)}"]`);if(!target)return;target.classList.add('located');target.scrollIntoView({behavior:'smooth',block:'center'});target.querySelector('button')?.focus({preventScroll:true});setTimeout(()=>target.classList.remove('located'),3500)});
 }
 
 const viewer = document.querySelector('#art-viewer');
@@ -67,7 +79,8 @@ function paintViewer() {
   img.src = `assets/${art.id}.webp`; img.alt = art.alt;
   document.querySelector('#viewer-title').textContent = art.label;
   document.querySelector('#viewer-counter').textContent = `${viewerIndex+1} / ${viewerList.length}`;
-  document.querySelector('#viewer-enquiry').href = `mailto:mejgbrandsen@gmail.com?subject=${encodeURIComponent('About your work: '+art.label)}`;
+  const description=document.querySelector('#viewer-description');description.textContent=art.description;const sameAsTitle=art.description.replace(/[.!?]+$/,'').trim().toLowerCase()===art.label.replace(/[.!?]+$/,'').trim().toLowerCase();description.hidden=!art.description||sameAsTitle;
+  document.querySelector('#viewer-enquiry').href = 'about.html#contact';
 }
 function openArtwork(id, trigger) {
   if (!viewer) return;

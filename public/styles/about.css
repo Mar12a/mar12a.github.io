@@ -41,3 +41,118 @@
 
 .wander-hint{margin-right:auto;align-self:center;font:italic 15px/1.2 Palatino,'Book Antiqua',serif;transform:rotate(-2deg);opacity:.78}
 @media(max-width:700px){.wander-tools{flex-wrap:wrap}.wander-hint{width:100%;text-align:right;margin-bottom:2px;font-size:14px}}
+
+/* Feedback pass: softer green and desktop-like linked photo previews. */
+.about-page{--paper:#c9dba8;--ink:#294334}
+.wander-tools{position:absolute;top:76px;right:0;width:min(760px,100%);padding:0 4%;align-items:center;justify-content:flex-end;text-align:right}
+.wander-hint{margin-left:auto;margin-right:0;max-width:410px}
+.about-intro{padding-top:72px}
+.about-contact{padding-inline:max(6%,calc((100vw - 1500px)/2 + 90px));background:color-mix(in srgb,var(--paper) 72%,white)}
+.contact-words{margin:0;width:min(100%,740px)}
+.selection-links{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}.selection-links path{fill:none;stroke:var(--ink);stroke-width:1.5;stroke-dasharray:5 7;opacity:.55}
+.photo-file.selected .photo-frame img{box-shadow:0 2px 3px #20301955,0 0 0 3px var(--ink),0 0 0 7px #fff}.photo-file.selected .photo-filename{background:var(--ink);color:#f7f5e9}
+.photo-preview{position:fixed;z-index:30;width:min(360px,calc(100vw - 24px));border:1px solid #31363b;border-radius:11px;background:#eceae5;color:#222;box-shadow:0 20px 55px #1d28294a;overflow:hidden;pointer-events:none}.photo-preview[hidden]{display:none}.preview-titlebar{height:35px;display:flex;align-items:center;justify-content:space-between;padding:0 9px 0 72px;background:linear-gradient(#f8f7f4,#d9d7d1);border-bottom:1px solid #aaa;font:600 11px/1 'DM Sans',Arial,sans-serif;position:relative}.preview-titlebar::before{content:'';position:absolute;left:14px;width:11px;height:11px;border-radius:50%;background:#ff5f57;box-shadow:19px 0 #febc2e,38px 0 #28c840}.preview-titlebar button{border:0;background:transparent;font:18px/1 Arial,sans-serif;padding:2px 6px;pointer-events:auto}.preview-body{display:grid;grid-template-columns:minmax(0,1fr) 95px;gap:14px;align-items:center;padding:14px;background:#f7f6f2}.preview-body img{display:block;width:100%;height:230px;object-fit:contain;background:#dedbd5;border-radius:3px}.preview-body p{margin:0;font:italic 15px/1.35 Palatino,'Book Antiqua',serif}
+.about-page .footer-intro{display:flex;flex-direction:column;align-items:flex-start;gap:13px}.about-page .footer-note{margin:0;font:italic 15px/1.3 Palatino,'Book Antiqua',serif}
+@media(max-width:700px){.wander-tools{top:68px;padding:0 5%;gap:12px}.wander-hint{font-size:12px;max-width:100%}.about-intro{padding-top:95px}.about-contact{padding-inline:7%}.photo-preview{width:min(330px,calc(100vw - 24px))}.preview-body{grid-template-columns:1fr 75px}.preview-body img{height:190px}.preview-body p{font-size:13px}}
+
+
+/* Family feedback: one-photo interaction and a lighter modern preview. */
+.selection-links{display:none}
+.photo-file:focus{outline:none}
+.photo-file:focus-visible{outline:2px solid var(--ink);outline-offset:5px}
+.photo-preview{width:min(430px,calc(100vw - 24px));border:1px solid #ffffffb8;border-radius:20px;background:#f6f6f7eF;color:#1d1d1f;box-shadow:0 24px 70px #17251b38,0 2px 12px #17251b1f;backdrop-filter:blur(20px) saturate(1.2);-webkit-backdrop-filter:blur(20px) saturate(1.2)}
+.preview-titlebar{height:48px;padding:0 48px 0 18px;background:#ffffffad;border-bottom:1px solid #1d1d1f12;font:600 12px/1 'DM Sans',Arial,sans-serif}
+.preview-titlebar::before{display:none}
+.preview-titlebar button{position:absolute;right:11px;top:8px;width:32px;height:32px;border-radius:50%;background:#1d1d1f0c;font:22px/1 Arial,sans-serif;color:#1d1d1f}
+.preview-titlebar button:hover{background:#1d1d1f16}
+.preview-body{grid-template-columns:minmax(0,1fr) 135px;gap:18px;padding:18px;background:transparent}
+.preview-body img{height:260px;object-fit:contain;background:#ebecef;border-radius:12px}
+.preview-copy{align-self:center}
+.preview-body p{margin:0;font:15px/1.48 'DM Sans',Arial,sans-serif}
+.preview-work-link{display:inline-block;margin-top:16px;font:600 12px/1.3 'DM Sans',Arial,sans-serif;text-underline-offset:4px;pointer-events:auto}
+.preview-work-link[hidden]{display:none}
+@media(max-width:700px){
+ .photo-preview{width:min(355px,calc(100vw - 24px));border-radius:17px}
+ .preview-body{grid-template-columns:1fr 96px;gap:12px;padding:12px}
+ .preview-body img{height:205px;border-radius:10px}
+ .preview-body p{font-size:12px}
+ .preview-work-link{font-size:11px;margin-top:10px}
+}
+
+.photo-preview{pointer-events:auto}
+
+
+/* Gravity playground for the floating photo files. */
+.about-page,.about-page .about-contact,.about-page .new-footer{transition:background .55s ease,color .55s ease}
+.about-page.gravity-mode{--paper:#18285b;--ink:#f4f0c5;background-color:#18285b;background-image:radial-gradient(circle at 12% 18%,#ffffffbf 0 1px,transparent 1.5px),radial-gradient(circle at 72% 28%,#ffffff80 0 1px,transparent 1.5px),radial-gradient(circle at 43% 74%,#ffffff90 0 1px,transparent 1.5px),radial-gradient(circle at 88% 62%,#ffffff70 0 1px,transparent 1.5px);background-size:190px 190px,260px 260px,230px 230px,310px 310px}
+.about-page.gravity-mode .about-contact{background:#21356f}
+.about-page.gravity-mode .new-footer{background:#18285b}
+.about-page.gravity-mode .photo-filename{color:#f4f0c5}
+.about-page.gravity-mode .photo-file:hover .photo-filename,.about-page.gravity-mode .photo-file:focus-visible .photo-filename,.about-page.gravity-mode .photo-file.dragging .photo-filename{background:#f4f0c5;color:#18285b}
+.wander-tools{width:min(1080px,100%);gap:18px}
+.wander-tools #wander-toggle:disabled{opacity:.35;cursor:default}
+.gravity-control{display:flex;align-items:center;gap:9px;padding:6px 10px;border:1px solid currentColor;border-radius:24px;background:color-mix(in srgb,var(--paper) 78%,white);box-shadow:0 5px 18px #101a3d1b}
+.gravity-control[hidden]{display:none}
+.gravity-control label{font:600 11px/1 'DM Sans',Arial,sans-serif;white-space:nowrap}
+.gravity-control input{width:140px;accent-color:currentColor}
+.gravity-help{position:relative}
+.gravity-help>button{display:grid;place-items:center;width:22px;height:22px;padding:0!important;border:1px solid currentColor!important;border-radius:50%;font-weight:700!important}
+.gravity-help [role=tooltip]{position:absolute;top:calc(100% + 10px);right:0;width:220px;padding:13px 15px;border-radius:12px;background:#f7f5e9;color:#18285b;text-align:left;font:12px/1.5 'DM Sans',Arial,sans-serif;box-shadow:6px 8px 0 #101a3d2b;opacity:0;visibility:hidden;transform:translateY(-5px);transition:.16s ease;pointer-events:none}
+.gravity-help:hover [role=tooltip],.gravity-help:focus-within [role=tooltip]{opacity:1;visibility:visible;transform:none}
+@media(max-width:700px){
+ .wander-tools{gap:10px}
+ .gravity-control{order:4;width:100%;justify-content:flex-end;border-radius:15px}
+ .gravity-control input{width:min(140px,36vw)}
+}
+
+
+/* Gravity details: bright signatures, planetary help, and Mara's meteorite. */
+.about-lead{font:700 clamp(27px,3vw,40px)/1.02 'Barlow Condensed','DM Sans',Arial,sans-serif;letter-spacing:.015em}
+.gravity-mode .written-first img,.gravity-mode .footer-name img{filter:brightness(0) invert(1)}
+.gravity-mode .written-first img{transition:filter .4s ease}
+.meteor-button{white-space:nowrap}
+.meteor-button:disabled{opacity:.45}
+.meteorite{position:absolute;left:0;top:0;z-index:24;width:clamp(110px,14vw,210px);height:auto;pointer-events:none;filter:drop-shadow(0 16px 10px #080e2790);transform-origin:50% 65%}
+.meteorite[hidden]{display:none}
+.about-page.gravity-mode.meteor-impact::after{content:'';position:fixed;inset:0;z-index:23;pointer-events:none;background:#fff9cf;animation:meteor-flash .24s ease-out both}
+@keyframes meteor-flash{from{opacity:.5}to{opacity:0}}
+.gravity-help>button{font-size:15px!important;line-height:1}
+.gravity-help [role=tooltip]{width:245px;max-height:310px;overflow:auto}
+@media(max-width:700px){.about-lead{font-size:29px}.meteor-button{order:3}.gravity-help [role=tooltip]{width:min(245px,78vw)}}
+
+
+/* Fixed gravity console and discrete planetary acceleration presets. */
+.wander-tools{z-index:40}
+#gravity-toggle{position:fixed;left:20px;bottom:20px;z-index:36;padding:11px 16px!important;border:1px solid currentColor!important;border-radius:999px;background:color-mix(in srgb,var(--paper) 82%,white);box-shadow:0 5px 18px #101a3d25;white-space:nowrap}
+.meteor-button{position:fixed;left:172px;bottom:20px;z-index:36;padding:11px 16px!important;border:1px solid currentColor!important;border-radius:999px;background:color-mix(in srgb,var(--paper) 82%,white);box-shadow:0 5px 18px #101a3d25}
+.gravity-control{position:fixed;left:357px;bottom:14px;z-index:36;width:390px;min-width:390px;max-width:390px;box-sizing:border-box;justify-content:space-between}
+.gravity-control label{width:128px;overflow:hidden;text-overflow:ellipsis}
+.gravity-control input{width:185px;min-width:185px;max-width:185px;flex:0 0 185px}
+.gravity-control datalist{display:none}
+.gravity-mode #gravity-toggle,.gravity-mode .meteor-button,.gravity-mode .gravity-control{background:#f4f0c5;color:#18285b}
+@media(max-width:760px){#gravity-toggle{left:12px;bottom:12px}.meteor-button{left:auto;right:12px;bottom:12px}.gravity-control{left:12px;bottom:61px;width:calc(100vw - 24px);min-width:0;max-width:none}.gravity-control label{width:122px}.gravity-control input{width:min(155px,38vw);min-width:min(155px,38vw);max-width:min(155px,38vw);flex-basis:min(155px,38vw)}}
+
+/* Lighter photo frames and a gravity switch attached to the About section. */
+.photo-file .photo-frame img{border-width:2px;box-shadow:0 2px 3px #20301942,0 0 0 1px #ffffff4f}
+.about-intro{position:relative}
+#gravity-toggle{position:absolute;left:auto;right:4%;top:auto;bottom:18px}
+@media(max-width:760px){#gravity-toggle{position:absolute;left:auto;right:5%;bottom:12px}}
+
+/* Bare photo edges: depth comes from a quiet shadow, not a white frame. */
+.photo-file .photo-frame img{border:0;box-shadow:0 2px 4px #20301938}
+
+/* Joined gravity dock, Mac-style photo frames, and planetary skies. */
+.photo-file .photo-frame img{border:5px solid #fff;box-shadow:0 2px 3px #20301955,0 0 0 1px #ffffff66}
+.gravity-dock{position:absolute;right:4%;bottom:14px;z-index:42;display:flex;align-items:center;gap:12px;min-height:44px;padding:5px 8px;border:1px solid currentColor;border-radius:26px;background:color-mix(in srgb,var(--paper) 82%,white);box-shadow:0 5px 18px #101a3d25}
+.gravity-dock #gravity-toggle,.gravity-dock .meteor-button{position:static;inset:auto;box-shadow:none;border:0!important;background:transparent;padding:8px 10px!important}
+.gravity-dock .gravity-control{position:static;inset:auto;width:355px;min-width:355px;max-width:355px;padding:4px 8px;border:0;border-radius:0;background:transparent;box-shadow:none}
+.gravity-dock .gravity-control input{width:155px;min-width:155px;max-width:155px;flex-basis:155px}
+.meteor-count{display:none;min-width:72px;padding-right:8px;font:600 10px/1.2 'DM Sans',Arial,sans-serif;white-space:nowrap}
+.gravity-mode .meteor-count{display:block}
+.gravity-help [role=tooltip]{top:auto;bottom:calc(100% + 10px);transform:translateY(5px)}
+.gravity-help:hover [role=tooltip],.gravity-help:focus-within [role=tooltip]{transform:none}
+.about-page.gravity-mode{background-color:var(--space-a,#18285b);background-image:radial-gradient(circle at 12% 18%,#ffffffbf 0 1px,transparent 1.5px),radial-gradient(circle at 72% 28%,#ffffff80 0 1px,transparent 1.5px),radial-gradient(circle at 43% 74%,#ffffff90 0 1px,transparent 1.5px),radial-gradient(circle at 88% 62%,#ffffff70 0 1px,transparent 1.5px),linear-gradient(145deg,var(--space-a,#18285b),var(--space-b,#396a87));background-size:190px 190px,260px 260px,230px 230px,310px 310px,cover}
+.about-page.gravity-mode .about-contact{background:linear-gradient(145deg,var(--space-b,#396a87),var(--space-a,#18285b))}
+.about-page.gravity-mode .new-footer{background:var(--space-a,#18285b)}
+.gravity-mode .gravity-dock{background:#f4f0c5;color:#18285b}
+@media(max-width:900px){.gravity-dock{left:5%;right:5%;flex-wrap:wrap;justify-content:flex-end;border-radius:18px}.gravity-dock .gravity-control{order:4;width:100%;min-width:0;max-width:none}.gravity-dock .gravity-control input{width:min(155px,38vw);min-width:min(155px,38vw);max-width:min(155px,38vw);flex-basis:min(155px,38vw)}}

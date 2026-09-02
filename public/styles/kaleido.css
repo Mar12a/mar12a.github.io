@@ -46,3 +46,89 @@ body:not(.about-page) .hero{min-height:720px;height:100svh}body:not(.about-page)
 }
 .art-card.portrait button:focus-visible img{position:absolute;left:0;top:50%;width:100%;height:auto;max-width:none;transform:translateY(-50%);object-fit:fill}
 .art-card.landscape button:focus-visible img{position:absolute;left:50%;top:0;width:auto;height:100%;max-width:none;transform:translateX(-50%);object-fit:fill}
+
+/* Feedback pass: compact instrument, readable help, and richer portfolio cues. */
+@media(min-width:701px){
+ body:not(.about-page) .hero{height:calc(100svh - 78px);min-height:650px}
+ body:not(.about-page) .identity{bottom:17%}
+ .scope{height:79%;top:5%}
+ .instrument{bottom:1%;padding-right:205px}
+}
+.scope .click-hint{display:none}
+.instrument #original{position:absolute;right:18px;bottom:58px;width:76px;height:94px;padding:7px;margin:0;background:#fffaf2;transform:rotate(-5deg);box-shadow:4px 7px 16px #241b3035;border:0;z-index:4}
+.instrument #original:hover{opacity:1;transform:rotate(-2deg) scale(1.03)}
+.instrument #original-preview{display:block;position:static;width:100%;height:100%;object-fit:contain;padding:0;margin:0;transform:none;box-shadow:none;background:transparent;opacity:1;visibility:visible}
+.instrument #download{right:0;bottom:8px}
+.read-control{position:absolute;right:170px;bottom:7px;z-index:7}
+.read-control>button{width:58px;height:58px;border:1px solid currentColor;border-radius:50%;background:color-mix(in srgb,var(--paper) 58%,white);font:italic 13px Palatino,'Book Antiqua',serif;transform:rotate(7deg)}
+.read-control>button:hover,.read-control>button:focus-visible{transform:rotate(-4deg)}
+.read-control [role=tooltip]{position:absolute;right:0;bottom:calc(100% + 12px);width:270px;padding:16px 18px;background:#fffaf2;color:#293348;border:1px solid currentColor;border-radius:12px;text-align:left;font:12px/1.55 'DM Sans',Arial,sans-serif;box-shadow:7px 9px 0 #29334820;opacity:0;visibility:hidden;transform:translateY(7px);transition:.16s ease;pointer-events:none}
+.read-control:hover [role=tooltip],.read-control:focus-within [role=tooltip]{opacity:1;visibility:visible;transform:none}
+.read-control b{font-weight:700}
+.category-break{grid-column:1/-1;margin:44px 0 4px;padding-top:22px;border-top:1px solid color-mix(in srgb,var(--ink) 28%,transparent);font:700 clamp(20px,2.2vw,32px)/1 'DM Sans',Arial,sans-serif;letter-spacing:-.04em}.category-break:first-child{margin-top:8px}
+.art-card.landscape::after{content:'';position:absolute;right:8px;top:8px;width:25px;height:9px;border-radius:5px;background:var(--paper);box-shadow:0 0 0 1px color-mix(in srgb,var(--ink) 35%,transparent);pointer-events:none;z-index:14}
+@media(hover:hover){
+ .art-card.portrait button:hover img{border-top:1px solid var(--paper);border-bottom:1px solid var(--paper)}
+ .art-card.landscape button:hover img{border-left:1px solid var(--paper);border-right:1px solid var(--paper)}
+}
+.art-card.portrait button:focus-visible img{border-top:1px solid var(--paper);border-bottom:1px solid var(--paper)}
+.art-card.landscape button:focus-visible img{border-left:1px solid var(--paper);border-right:1px solid var(--paper)}
+.footer-intro{display:flex;flex-direction:column;align-items:flex-start;gap:13px}.footer-note{margin:0;font:italic 15px/1.3 Palatino,'Book Antiqua',serif}.new-footer .footer-name{max-width:250px}
+.instrument #motion{grid-column:2;justify-self:center}
+#art-viewer .viewer-layout{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:32px;align-items:center}
+#art-viewer .viewer-details{display:block;color:#fff}
+#art-viewer .viewer-details h2{display:block;margin:0 0 8px;font:700 25px/1.05 'DM Sans',Arial,sans-serif}
+#art-viewer .viewer-details #viewer-counter{display:block;font-size:11px;opacity:.65}
+#art-viewer .viewer-details #viewer-description{display:block;font:15px/1.55 Palatino,'Book Antiqua',serif;margin:25px 0 8px}
+#art-viewer .viewer-details #viewer-description[hidden]{display:none}
+#art-viewer .viewer-details #viewer-enquiry{display:inline-block;margin-top:18px;color:inherit;font-size:12px;text-underline-offset:5px}
+@media(max-width:700px){
+ .instrument{padding-right:0}.instrument #original{right:0;bottom:93px;width:58px;height:72px}.instrument #download{right:0;bottom:42px}.read-control{right:82px;bottom:42px}.read-control>button{width:50px;height:50px;font-size:12px}.read-control [role=tooltip]{width:min(260px,82vw);right:-70px}
+ #art-viewer .viewer-layout{display:block}.viewer-details{position:absolute;left:40px;right:40px;bottom:5px;background:#171319b8;padding:10px 12px;border-radius:8px}.viewer-details h2{font-size:17px!important}.viewer-details #viewer-counter,.viewer-details #viewer-enquiry{font-size:10px!important}.viewer-details #viewer-description{font-size:12px!important;margin:7px 0!important}.footer-note{font-size:13px}
+}
+
+
+/* Family feedback: clearer introduction, more portfolio above the fold. */
+.home-hello,.home-role{position:relative;z-index:3;margin:0 0 0 4%;font-family:'DM Sans',Arial,sans-serif}
+.home-hello{font:italic 18px/1 Palatino,'Book Antiqua',serif;letter-spacing:0;transform:translateY(38px) rotate(-3deg);width:max-content}
+.home-role{font:700 13px/1 'DM Sans',Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;margin-top:5px}
+.identity .name-animation{transform:translateY(35px)}
+.identity .identity-actions{margin-top:7px}
+.hero>.read-control{position:absolute;top:78px;right:3.5%;bottom:auto;z-index:8}
+.hero>.read-control [role=tooltip]{top:calc(100% + 12px);bottom:auto}
+.instrument #original{bottom:86px}
+@media(min-width:701px){
+ body:not(.about-page) .hero{height:calc(100svh - 120px);min-height:600px}
+ body:not(.about-page) .identity{bottom:15%}
+ .scope{height:77%;top:5%}
+}
+@media(hover:hover){
+ .art-card.portrait button:hover img{border-top:10px solid #fffaf2;border-bottom:10px solid #fffaf2}
+ .art-card.landscape button:hover img{border-left:10px solid #fffaf2;border-right:10px solid #fffaf2}
+}
+.art-card.portrait button:focus-visible img{border-top:10px solid #fffaf2;border-bottom:10px solid #fffaf2}
+.art-card.landscape button:focus-visible img{border-left:10px solid #fffaf2;border-right:10px solid #fffaf2}
+@media(max-width:700px){
+ .home-hello{font-size:16px;transform:translateY(24px) rotate(-3deg)}
+ .identity .name-animation{transform:translateY(20px)}
+ .home-role{font-size:11px;margin-top:1px}
+ .identity .identity-actions{margin-top:7px}
+ .hero>.read-control{top:66px;right:5%}
+ .hero>.read-control [role=tooltip]{right:0;top:calc(100% + 10px);bottom:auto}
+ .instrument #original{bottom:108px}
+}
+
+
+/* Refinement: stronger introduction beside the handwritten name. */
+.home-hello{font-size:clamp(26px,2.5vw,38px);transform:translateY(30px) rotate(-3deg)}
+.home-role{position:absolute;right:5%;top:17%;display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin:0;font-size:clamp(13px,1.3vw,18px);line-height:.9;letter-spacing:.07em;transform:rotate(3deg)}
+.instrument .sliders{transform:translateX(24px)}
+@media(max-width:700px){
+ .home-hello{font-size:24px;transform:translateY(18px) rotate(-3deg)}
+ .home-role{right:2%;top:18%;font-size:13px}
+ .instrument .sliders{transform:translateX(10px)}
+}
+
+.identity .home-hello{font-size:clamp(26px,2.5vw,38px);line-height:1;letter-spacing:0;margin-bottom:0}
+.identity .home-role{font-size:clamp(13px,1.3vw,18px);line-height:.9;letter-spacing:.07em;margin:0}
+@media(max-width:700px){.identity .home-hello{font-size:24px}.identity .home-role{font-size:13px}}

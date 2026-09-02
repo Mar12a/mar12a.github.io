@@ -1,7 +1,7 @@
 const canvas=document.getElementById('scope'),ctx=canvas.getContext('2d');
 const knobs=['facets','turn','zoom'].map(id=>document.getElementById(id));
 const paletteByColour={red:['#e98b8d','#442838'],orange:['#eeb47c','#442638'],yellow:['#e9da52','#283e56'],green:['#b9ce91','#293d32'],blue:['#b4d8e2','#26354c'],purple:['#c9aedb','#3b284d'],pink:['#ed9dbb','#4d263c'],bw:['#dedbcf','#292932']};
-const excludedKaleidoscopeOrders=new Set([3,6,10,16,20,22,23,25,26,28,35]);
+const excludedKaleidoscopeOrders=new Set([3,5,6,10,16,20,21,22,23,25,26,28,30,31,35]);
 const scenes=artworks.filter(art=>!excludedKaleidoscopeOrders.has(art.order)).map(art=>[art.id,...(paletteByColour[art.colour]||paletteByColour.blue)]);
 // Pick a fresh colour on every visit; keep its artwork and palette together.
 let previousColour=null;
@@ -61,6 +61,7 @@ function loadScene(){
 function changeArtwork(){scene=(scene+1)%scenes.length;loadScene()}
 document.getElementById('change').addEventListener('click',changeArtwork);
 canvas.addEventListener('click',changeArtwork);
+document.querySelector('.hero').addEventListener('click',event=>{if(event.target.closest('a,button,input,canvas,.instrument,.read-control'))return;changeArtwork()});
 let scopeHover=false,scopeFocus=false;
 function highlightScope(){scopeHighlighted=scopeHover||scopeFocus;render()}
 canvas.addEventListener('pointerenter',()=>{scopeHover=true;highlightScope()});
@@ -85,9 +86,18 @@ const rainbowOrder=['red','orange','yellow','green','blue','purple','pink','bw']
 document.querySelectorAll('[data-sort]').forEach(button=>button.addEventListener('click',()=>{
  document.querySelectorAll('[data-sort]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
  let list=[...artworks];
+ grid.querySelectorAll('.category-break').forEach(label=>label.remove());
  if(button.dataset.sort==='rainbow')list.sort((a,b)=>rainbowOrder.indexOf(a.colour)-rainbowOrder.indexOf(b.colour)||a.order-b.order);
+ if(button.dataset.sort==='kind')list.sort((a,b)=>kindGroups.findIndex(group=>group.key===a.kind)-kindGroups.findIndex(group=>group.key===b.kind)||a.order-b.order);
  if(button.dataset.sort==='shuffle')for(let i=list.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[list[i],list[j]]=[list[j],list[i]]}
  list.forEach(art=>grid.append(grid.querySelector('[data-id="'+art.id+'"]')));
+ if(button.dataset.sort==='kind'){
+  [...kindGroups].reverse().forEach(group=>{
+   const first=list.find(art=>art.kind===group.key);if(!first)return;
+   const label=document.createElement('h3');label.className='category-break';label.textContent=window.maraT(group.label);
+   grid.insertBefore(label,grid.querySelector('[data-id="'+first.id+'"]'));
+  });
+ }
  visibleArt=list;
 }));
 
@@ -105,6 +115,10 @@ document.getElementById('download').addEventListener('click',()=>{
  context.fillStyle=scenes[scene][1];context.fillRect(0,0,out.width,out.height);
  const scale=Math.min(1520/canvas.width,1520/canvas.height),w=canvas.width*scale,h=canvas.height*scale;
  context.drawImage(canvas,(1600-w)/2,(1560-h)/2,w,h);
+ context.save();context.translate(205,1320);context.rotate(-.075);
+ context.shadowColor='#25182b44';context.shadowBlur=22;context.shadowOffsetY=14;context.fillStyle='#fffaf2';context.fillRect(-145,-180,290,360);context.shadowColor='transparent';
+ const postcardScale=Math.min(254/picture.naturalWidth,324/picture.naturalHeight),postcardWidth=picture.naturalWidth*postcardScale,postcardHeight=picture.naturalHeight*postcardScale;
+ context.drawImage(picture,-postcardWidth/2,-postcardHeight/2,postcardWidth,postcardHeight);context.restore();
  context.fillStyle=scenes[scene][2];context.textAlign='center';context.font='26px Georgia';
  context.fillText(window.maraT("Made on Mara Brandsen’s website, with her artwork."),800,1615);
  context.font='20px Arial';context.fillText(window.maraT('mar12a.github.io · Original artwork © Mara Brandsen'),800,1660);
