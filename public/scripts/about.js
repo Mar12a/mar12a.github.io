@@ -21,12 +21,12 @@ const gravityPresets=[
 function loadMeteorCount(){try{return Math.max(0,Number.parseInt(localStorage.getItem('mara-meteor-count'),10)||0)}catch{return 0}}
 function showMeteorCount(){meteorCounter.value=`${meteorCount} ${window.maraT(meteorCount===1?'meteorite':'meteorites')}`}
 let wandering=!reduceMotion.matches,gravityOn=false,gravityValue=9.81,meteorClickTimer=null,meteorCount=loadMeteorCount(),last=0,settled=false,previewed=null;
-const creatures=[...layer.querySelectorAll('.wander-sticker')].map((element,i)=>{const col=i%3,row=Math.floor(i/3),angle=Math.atan2(row-1,col-1);return {element,x:0,y:0,vx:Math.cos(angle)*(9+i%4),vy:Math.sin(angle)*(9+i%3),angle:0,grounded:false,drag:null,focused:false,index:i}});
+const creatures=[...layer.querySelectorAll('.wander-sticker')].map((element,i)=>{const col=i%3,row=Math.floor(i/3),angle=Math.atan2(row-1,col-1);return {element,x:0,y:0,vx:Math.cos(angle)*(9+i%4),vy:Math.sin(angle)*(9+i%3),angle:0,grounded:false,drag:null,focused:false,thrown:false,index:i}});
 
 function limits(c){const origin=layer.getBoundingClientRect(),contact=document.getElementById('contact').getBoundingClientRect(),tools=document.querySelector('.wander-tools').getBoundingClientRect();const top=Math.max(0,tools.bottom-origin.top+12);return {w:Math.max(0,layer.clientWidth-c.element.offsetWidth),top,h:Math.max(top,contact.top-origin.top-c.element.offsetHeight-16)}}
 function clamp(c){const b=limits(c);c.x=Math.max(0,Math.min(b.w,c.x));c.y=Math.max(b.top,Math.min(b.h,c.y))}
 function place(c){c.element.style.transform=`translate(${c.x}px,${c.y}px) rotate(${c.angle}deg)`;if(previewed===c)positionPreview(c)}
-function arrangeGrid(){const anchor=document.querySelector('.sticker-grid-origin').getBoundingClientRect(),origin=layer.getBoundingClientRect();const cw=anchor.width/3,ch=anchor.height/3,width=Math.floor(cw*.86),height=Math.floor(Math.min(ch*.84,180));creatures.forEach(c=>{const a=Math.atan2(Math.floor(c.index/3)-1,c.index%3-1);c.vx=Math.cos(a)*(12+c.index%4);c.vy=Math.sin(a)*(12+c.index%3);c.element.style.width=width+'px';c.element.style.height=height+'px';c.angle=0;c.grounded=false;c.drag=null;c.element.classList.remove('dragging');c.x=anchor.left-origin.left+(c.index%3+.5)*cw-width/2;c.y=anchor.top-origin.top+(Math.floor(c.index/3)+.5)*ch-height/2;clamp(c);place(c)});preview.hidden=true;previewed=null;layer.classList.add('grid-ready')}
+function arrangeGrid(){const anchor=document.querySelector('.sticker-grid-origin').getBoundingClientRect(),origin=layer.getBoundingClientRect();const cw=anchor.width/3,ch=anchor.height/3,width=Math.floor(cw*.86),height=Math.floor(Math.min(ch*.84,180));creatures.forEach(c=>{const a=Math.atan2(Math.floor(c.index/3)-1,c.index%3-1);c.vx=Math.cos(a)*(12+c.index%4);c.vy=Math.sin(a)*(12+c.index%3);c.element.style.width=width+'px';c.element.style.height=height+'px';c.angle=0;c.grounded=false;c.thrown=false;c.drag=null;c.element.classList.remove('dragging');c.x=anchor.left-origin.left+(c.index%3+.5)*cw-width/2;c.y=anchor.top-origin.top+(Math.floor(c.index/3)+.5)*ch-height/2;clamp(c);place(c)});preview.hidden=true;previewed=null;layer.classList.add('grid-ready')}
 function resetGrid(){arrangeGrid();if(gravityOn)creatures.forEach((c,i)=>{c.vx=(i-4)*7;c.vy=-(55+i*8);c.grounded=false});last=0}
 document.getElementById('reset-grid').addEventListener('click',resetGrid);
 
@@ -40,8 +40,8 @@ function updateGravity(){
  document.body.classList.toggle('gravity-mode',gravityOn);gravityControl.hidden=!gravityOn;
  gravityToggle.setAttribute('aria-pressed',String(gravityOn));gravityToggle.textContent=window.maraT(gravityOn?'Turn off gravity':'Turn on gravity');
  meteorButton.hidden=!gravityOn;toggle.disabled=gravityOn;
- if(gravityOn){preview.hidden=true;previewed=null;creatures.forEach((c,i)=>{c.vx=(i-4)*8+(i%2?14:-14);c.vy=-(70+i*10);c.angle=(i-4)*1.5;c.grounded=false})}
- else creatures.forEach((c,i)=>{const col=i%3,row=Math.floor(i/3),a=Math.atan2(row-1,col-1);c.vx=Math.cos(a)*(9+i%4);c.vy=Math.sin(a)*(9+i%3);c.grounded=false});
+ if(gravityOn){preview.hidden=true;previewed=null;creatures.forEach((c,i)=>{c.thrown=false;c.vx=(i-4)*8+(i%2?14:-14);c.vy=-(70+i*10);c.angle=(i-4)*1.5;c.grounded=false})}
+ else creatures.forEach((c,i)=>{c.thrown=false;const col=i%3,row=Math.floor(i/3),a=Math.atan2(row-1,col-1);c.vx=Math.cos(a)*(9+i%4);c.vy=Math.sin(a)*(9+i%3);c.grounded=false});
 }
 toggle.addEventListener('click',()=>{wandering=!wandering;toggleLabel()});
 gravityToggle.addEventListener('click',()=>{gravityOn=!gravityOn;if(!gravityOn)wandering=!reduceMotion.matches;updateGravity();toggleLabel();last=0});
@@ -71,7 +71,7 @@ reduceMotion.addEventListener('change',()=>{if(reduceMotion.matches){wandering=f
 creatures.forEach(c=>{
  c.element.addEventListener('pointerdown',event=>{if(event.button!==0)return;event.preventDefault();c.drag={pageX:event.pageX,pageY:event.pageY,lastX:event.pageX,lastY:event.pageY,lastT:performance.now(),vx:0,vy:0,x:c.x,y:c.y,moved:false};c.element.setPointerCapture(event.pointerId);c.element.classList.add('dragging')});
  c.element.addEventListener('pointermove',event=>{if(!c.drag)return;const now=performance.now(),dx=event.pageX-c.drag.pageX,dy=event.pageY-c.drag.pageY,frame=Math.max(8,now-c.drag.lastT);if(Math.hypot(dx,dy)>5)c.drag.moved=true;c.drag.vx=(event.pageX-c.drag.lastX)/frame*1000;c.drag.vy=(event.pageY-c.drag.lastY)/frame*1000;c.drag.lastX=event.pageX;c.drag.lastY=event.pageY;c.drag.lastT=now;if(!c.drag.moved)return;c.x=c.drag.x+dx;c.y=c.drag.y+dy;clamp(c);place(c)});
- const release=event=>{if(!c.drag)return;const moved=c.drag.moved,throwX=Math.max(-320,Math.min(320,c.drag.vx*.55)),throwY=Math.max(-320,Math.min(320,c.drag.vy*.55));c.drag=null;c.element.classList.remove('dragging');if(c.element.hasPointerCapture(event.pointerId))c.element.releasePointerCapture(event.pointerId);if(moved){c.vx=throwX;c.vy=throwY;c.grounded=false}else showPreview(c)};
+ const release=event=>{if(!c.drag)return;const moved=c.drag.moved,throwX=Math.max(-150,Math.min(150,c.drag.vx*.28)),throwY=Math.max(-150,Math.min(150,c.drag.vy*.28));c.drag=null;c.element.classList.remove('dragging');if(c.element.hasPointerCapture(event.pointerId))c.element.releasePointerCapture(event.pointerId);if(moved){c.vx=throwX;c.vy=throwY;c.grounded=false;c.thrown=true}else showPreview(c)};
  c.element.addEventListener('pointerup',release);c.element.addEventListener('pointercancel',release);
  c.element.addEventListener('focus',()=>c.focused=true);c.element.addEventListener('blur',()=>c.focused=false);
  c.element.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();showPreview(c);return}const direction={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[event.key];if(!direction)return;event.preventDefault();const step=event.shiftKey?30:10;c.x+=direction[0]*step;c.y+=direction[1]*step;clamp(c);place(c)});
@@ -100,7 +100,7 @@ function drift(now){
     else if(c.y<=b.top){c.y=b.top;c.vy=Math.abs(c.vy)*.58}
    });
    resolvePhotoCollisions();creatures.forEach(c=>{clamp(c);place(c)});
-  }else creatures.forEach(c=>{if(c.drag)return;c.angle+=(0-c.angle)*Math.min(1,dt*.85);if(wandering&&!c.focused&&previewed!==c){const b=limits(c);c.x+=c.vx*dt;c.y+=c.vy*dt;if(c.x<=0||c.x>=b.w)c.vx*=-1;if(c.y<=b.top||c.y>=b.h)c.vy*=-1;clamp(c)}place(c)})
+  }else creatures.forEach(c=>{if(c.drag)return;c.angle+=(0-c.angle)*Math.min(1,dt*.85);if(wandering&&!c.focused&&previewed!==c){const b=limits(c);if(c.thrown){const brake=Math.pow(.025,dt);c.vx*=brake;c.vy*=brake;if(Math.hypot(c.vx,c.vy)<13)c.thrown=false}c.x+=c.vx*dt;c.y+=c.vy*dt;if(c.x<=0||c.x>=b.w)c.vx*=-1;if(c.y<=b.top||c.y>=b.h)c.vy*=-1;clamp(c)}place(c)})
  }
  requestAnimationFrame(drift)
 }
