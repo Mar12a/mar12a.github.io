@@ -82,7 +82,7 @@ new ResizeObserver(render).observe(canvas);updateMotion();loadScene();frame=requ
 const grid=document.getElementById('gallery');
 document.getElementById('original').addEventListener('click',e=>{e.preventDefault();const button=grid.querySelector('[data-art="'+scenes[scene][0]+'"]');if(button){const card=button.closest('.art-card');card.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'center'});button.focus({preventScroll:true});card.classList.remove('located');void card.offsetWidth;card.classList.add('located');setTimeout(()=>card.classList.remove('located'),2200)}});
 const sizes=document.getElementById('grid-size');
-function resizeGrid(){grid.style.setProperty('--cols',sizes.value);grid.style.setProperty('--mobile-cols',Number(sizes.value)<=2?1:Number(sizes.value)>=5?3:2)}sizes.addEventListener('input',resizeGrid);resizeGrid();
+function resizeGrid(){const columns=9-Number(sizes.value);grid.style.setProperty('--cols',columns);grid.style.setProperty('--mobile-cols',columns<=2?1:columns>=5?3:2)}sizes.addEventListener('input',resizeGrid);resizeGrid();
 const rainbowOrder=['red','orange','yellow','green','blue','purple','pink','bw'];
 document.querySelectorAll('[data-sort]').forEach(button=>button.addEventListener('click',()=>{
  document.querySelectorAll('[data-sort]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));

@@ -178,6 +178,8 @@
   "Shuffle ↻": "Husselen ↻",
   "Grid size": "Rastergrootte",
   "Number of gallery columns": "Aantal kolommen",
+  "Artwork size": "Formaat kunstwerken",
+  "Artwork size, smaller to larger": "Formaat kunstwerken, van kleiner naar groter",
   "Order artwork": "Volgorde van de werken",
   "Interactive artwork kaleidoscope": "Interactieve caleidoscoop van kunstwerken",
   "Kaleidoscope: activate to show another artwork": "Caleidoscoop: activeer om een ander werk te tonen",
