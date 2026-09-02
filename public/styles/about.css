@@ -156,3 +156,6 @@
 .about-page.gravity-mode .new-footer{background:var(--space-a,#18285b)}
 .gravity-mode .gravity-dock{background:#f4f0c5;color:#18285b}
 @media(max-width:900px){.gravity-dock{left:5%;right:5%;flex-wrap:wrap;justify-content:flex-end;border-radius:18px}.gravity-dock .gravity-control{order:4;width:100%;min-width:0;max-width:none}.gravity-dock .gravity-control input{width:min(155px,38vw);min-width:min(155px,38vw);max-width:min(155px,38vw);flex-basis:min(155px,38vw)}}
+
+/* Photo preview always sits above page copy and floating controls. */
+.photo-preview{z-index:60}

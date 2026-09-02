@@ -39,14 +39,15 @@ function render(){
  ctx.restore();
 }
 function tick(now){
+ frame=0;
  const dt=lastTime?Math.min(now-lastTime,100):0;lastTime=now;
- if(playing&&!interacting&&inView&&!document.hidden&&!document.querySelector('dialog[open]')){
-  elapsed+=dt;
-  knobs[1].value=(Number(knobs[1].value)+dt*.000045)%(Math.PI*2);
-  render();
-
- }
- frame=requestAnimationFrame(tick);
+ try{
+  if(playing&&!interacting&&inView&&!document.hidden&&!document.querySelector('dialog[open]')){
+   elapsed+=dt;
+   knobs[1].value=(Number(knobs[1].value)+dt*.000085)%Number(knobs[1].max);
+   render();
+  }
+ }finally{frame=requestAnimationFrame(tick)}
 }
 function loadScene(){
  const index=scene,[id,bg,ink]=scenes[index];const img=new Image();
@@ -69,7 +70,7 @@ canvas.addEventListener('pointerleave',()=>{scopeHover=false;highlightScope()});
 canvas.addEventListener('focus',()=>{scopeFocus=true;highlightScope()});
 canvas.addEventListener('blur',()=>{scopeFocus=false;highlightScope()});
 canvas.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();changeArtwork()}});
-motion.addEventListener('click',()=>{playing=!playing;updateMotion()});
+motion.addEventListener('click',()=>{playing=!playing;lastTime=performance.now();updateMotion();if(!frame)frame=requestAnimationFrame(tick)});
 knobs.forEach(knob=>{
  knob.addEventListener('pointerdown',()=>{interacting=true});
  knob.addEventListener('input',()=>{zoomBase=Number(knobs[2].value);zoomPhase=0;render()});
@@ -121,7 +122,7 @@ document.getElementById('download').addEventListener('click',()=>{
  context.drawImage(picture,-postcardWidth/2,-postcardHeight/2,postcardWidth,postcardHeight);context.restore();
  context.fillStyle=scenes[scene][2];context.textAlign='center';context.font='26px Georgia';
  context.fillText(window.maraT("Made on Mara Brandsen’s website, with her artwork."),800,1615);
- context.font='20px Arial';context.fillText(window.maraT('mar12a.github.io · Original artwork © Mara Brandsen'),800,1660);
+ context.font='20px Arial';context.fillText(window.maraT('marabrandsen.nl · Original artwork © Mara Brandsen'),800,1660);
  out.toBlob(blob=>{if(!blob){document.getElementById('scope-status').textContent=window.maraT('Could not save the image. Please try again.');return}const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='mara-brandsen-kaleidoscope-'+scenes[scene][0]+'.png';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);document.getElementById('scope-status').textContent=window.maraT('PNG saved with the background colour and artwork credit.')},'image/png');
 });
 
