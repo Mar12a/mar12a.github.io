@@ -37,7 +37,7 @@
   "I created this painting for a cancer awareness exhibition.": "Ik maakte dit schilderij voor een tentoonstelling over kankerbewustzijn.",
   "This is me in the snow.": "Dit ben ik in de sneeuw.",
   "I love doing sports, especially running.": "Ik hou van sporten, vooral van hardlopen.",
-  "I spent the summer studying biomedical engineering in London. Here we X-rayed an avocado.": "Ik bracht de zomer door met biomedische technologie studeren in Londen. Hier maakten we een röntgenfoto van een avocado.",
+  "I spent the summer of 2025 studying biomedical engineering in London. Here we X-rayed an avocado.": "In de zomer van 2025 studeerde ik biomedische technologie in Londen. Hier maakten we een röntgenfoto van een avocado.",
   "I painted a car for Bomencentrum Nederland.": "Ik beschilderde een auto voor Bomencentrum Nederland.",
   "Wearing my BSc university’s merch.": "In de merch van de universiteit van mijn BSc.",
   "See artwork 34 →": "Bekijk kunstwerk 34 →",

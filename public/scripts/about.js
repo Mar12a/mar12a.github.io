@@ -9,7 +9,7 @@ const photoNotes=[
  {text:'I created this painting for a cancer awareness exhibition.',work:33},
  {text:'This is me in the snow.'},
  {text:'I love doing sports, especially running.'},
- {text:'I spent the summer studying biomedical engineering in London. Here we X-rayed an avocado.'},
+ {text:'I spent the summer of 2025 studying biomedical engineering in London. Here we X-rayed an avocado.'},
  {text:'I painted a car for Bomencentrum Nederland.'},
  {text:'Wearing my BSc university’s merch.'}
 ];
@@ -18,7 +18,9 @@ const gravityPresets=[
  {name:'Uranus',value:8.69,sky:['#173d59','#73ced1']},{name:'Venus',value:8.87,sky:['#5b2c54','#e5a05f']},{name:'Earth',value:9.81,sky:['#18285b','#396a87']},
  {name:'Saturn',value:10.44,sky:['#3a315a','#d4b375']},{name:'Neptune',value:11.15,sky:['#101c56','#315ee8']},{name:'Jupiter',value:24.79,sky:['#3e2531','#d09568']}
 ];
-let wandering=!reduceMotion.matches,gravityOn=false,gravityValue=9.81,meteorClickTimer=null,meteorCount=0,last=0,settled=false,previewed=null;
+function loadMeteorCount(){try{return Math.max(0,Number.parseInt(localStorage.getItem('mara-meteor-count'),10)||0)}catch{return 0}}
+function showMeteorCount(){meteorCounter.value=`${meteorCount} meteorite${meteorCount===1?'':'s'}`}
+let wandering=!reduceMotion.matches,gravityOn=false,gravityValue=9.81,meteorClickTimer=null,meteorCount=loadMeteorCount(),last=0,settled=false,previewed=null;
 const creatures=[...layer.querySelectorAll('.wander-sticker')].map((element,i)=>{const col=i%3,row=Math.floor(i/3),angle=Math.atan2(row-1,col-1);return {element,x:0,y:0,vx:Math.cos(angle)*(9+i%4),vy:Math.sin(angle)*(9+i%3),angle:0,grounded:false,drag:null,focused:false,index:i}});
 
 function limits(c){const origin=layer.getBoundingClientRect(),contact=document.getElementById('contact').getBoundingClientRect(),tools=document.querySelector('.wander-tools').getBoundingClientRect();const top=Math.max(0,tools.bottom-origin.top+12);return {w:Math.max(0,layer.clientWidth-c.element.offsetWidth),top,h:Math.max(top,contact.top-origin.top-c.element.offsetHeight-16)}}
@@ -46,7 +48,7 @@ gravityToggle.addEventListener('click',()=>{gravityOn=!gravityOn;if(!gravityOn)w
 function updateGravityPreset(){const preset=gravityPresets[Number(gravityInput.value)];gravityValue=preset.value;gravityOutput.value=`${window.maraT(preset.name)} · ${preset.value.toFixed(2)}`;document.body.style.setProperty('--space-a',preset.sky[0]);document.body.style.setProperty('--space-b',preset.sky[1])}
 gravityInput.addEventListener('input',updateGravityPreset);
 function meteorImpact(impact){
- meteorCount++;meteorCounter.value=`${meteorCount} meteorite${meteorCount===1?'':'s'}`;
+ meteorCount++;showMeteorCount();try{localStorage.setItem('mara-meteor-count',String(meteorCount))}catch{}
  creatures.forEach((c,i)=>{const centre=c.x+c.element.offsetWidth/2,distance=Math.min(1,Math.abs(centre-impact)/(layer.clientWidth*.8));c.vx=(centre-impact)*(.40-distance*.17)+(i%2?15:-15);c.vy=-(82+(1-distance)*115+Math.random()*32);c.angle+=(i%2?1:-1)*(5+Math.random()*9);c.grounded=false});
  document.body.classList.remove('meteor-impact');void document.body.offsetWidth;document.body.classList.add('meteor-impact');setTimeout(()=>document.body.classList.remove('meteor-impact'),240);
 }
@@ -103,4 +105,4 @@ function drift(now){
  requestAnimationFrame(drift)
 }
 new ResizeObserver(()=>{if(!settled)arrangeGrid();else creatures.forEach(c=>{clamp(c);place(c)})}).observe(layer);
-updateGravityPreset();updateGravity();toggleLabel();document.fonts.ready.then(()=>requestAnimationFrame(()=>{resetGrid();settled=true;requestAnimationFrame(drift)}));
+updateGravityPreset();showMeteorCount();updateGravity();toggleLabel();document.fonts.ready.then(()=>requestAnimationFrame(()=>{resetGrid();settled=true;requestAnimationFrame(drift)}));
