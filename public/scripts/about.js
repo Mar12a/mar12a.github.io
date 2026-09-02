@@ -19,7 +19,7 @@ const gravityPresets=[
  {name:'Saturn',value:10.44,sky:['#3a315a','#d4b375']},{name:'Neptune',value:11.15,sky:['#101c56','#315ee8']},{name:'Jupiter',value:24.79,sky:['#3e2531','#d09568']}
 ];
 function loadMeteorCount(){try{return Math.max(0,Number.parseInt(localStorage.getItem('mara-meteor-count'),10)||0)}catch{return 0}}
-function showMeteorCount(){meteorCounter.value=`${meteorCount} meteorite${meteorCount===1?'':'s'}`}
+function showMeteorCount(){meteorCounter.value=`${meteorCount} ${window.maraT(meteorCount===1?'meteorite':'meteorites')}`}
 let wandering=!reduceMotion.matches,gravityOn=false,gravityValue=9.81,meteorClickTimer=null,meteorCount=loadMeteorCount(),last=0,settled=false,previewed=null;
 const creatures=[...layer.querySelectorAll('.wander-sticker')].map((element,i)=>{const col=i%3,row=Math.floor(i/3),angle=Math.atan2(row-1,col-1);return {element,x:0,y:0,vx:Math.cos(angle)*(9+i%4),vy:Math.sin(angle)*(9+i%3),angle:0,grounded:false,drag:null,focused:false,index:i}});
 

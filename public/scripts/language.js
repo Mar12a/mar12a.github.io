@@ -1,6 +1,10 @@
 /* English / Dutch copy and language navigation. */
 (()=>{
  const nl={
+  "How it works": "Hoe werkt het?",
+  "Gravity pulls objects toward a planet. The number a tells you how quickly a falling object speeds up. A larger number makes the photos fall faster and hit the ground with more force.": "Zwaartekracht trekt voorwerpen naar een planeet toe. Het getal a vertelt hoe snel een vallend voorwerp versnelt. Een groter getal laat de foto's sneller vallen en met meer kracht de grond raken.",
+  "meteorite": "meteoriet",
+  "meteorites": "meteorieten",
   'Utrecht Overvecht': 'Utrecht Overvecht',
   'Utrecht Overvecht.': 'Utrecht Overvecht.',
   'My queen': 'Mijn koningin',

@@ -159,3 +159,16 @@
 
 /* Photo preview always sits above page copy and floating controls. */
 .photo-preview{z-index:60}
+
+/* Plain-language gravity help beside the Saturn control. */
+.gravity-dock .gravity-control{width:500px;min-width:500px;max-width:500px}
+.gravity-control label,.meteor-count{font-size:12px}
+.physics-help{position:relative;display:inline-flex;align-items:center}
+.physics-help>button{white-space:nowrap;padding:3px 0!important;border:0!important;border-bottom:1px solid currentColor!important;background:transparent;font:600 11px/1.2 'DM Sans',Arial,sans-serif;color:inherit}
+.physics-help [role=tooltip]{position:absolute;right:0;bottom:calc(100% + 10px);width:280px;padding:14px 16px;border-radius:12px;background:#f7f5e9;color:#18285b;text-align:left;font:13px/1.5 'DM Sans',Arial,sans-serif;box-shadow:6px 8px 0 #101a3d2b;opacity:0;visibility:hidden;transform:translateY(5px);transition:.16s ease;pointer-events:none}
+.physics-help:hover [role=tooltip],.physics-help:focus-within [role=tooltip]{opacity:1;visibility:visible;transform:none}
+@media(max-width:1100px){
+ .gravity-dock{left:5%;right:5%;flex-wrap:wrap;justify-content:flex-end;border-radius:18px}
+ .gravity-dock .gravity-control{order:4;width:100%;min-width:0;max-width:none}
+ .physics-help [role=tooltip]{right:-4px;width:min(280px,78vw)}
+}
